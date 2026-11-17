@@ -22,7 +22,8 @@ auto-deployed on every push to `main` — see `.github/workflows/deploy-book.yml
 | 1 | [ROS2 + Gazebo — Giving Simulation a Voice](./01-ros-gazebo/) | Nodes, topics/services/actions, QoS, a simulated diff-drive robot | 🔴 not started |
 | 2 | [RL Fundamentals — Teaching a Policy to Move](./02-rl-mujoco/) | PPO/SAC on MuJoCo, reward shaping, easy → hard tasks | 🔴 not started |
 | 3 | [Scaling Up — Isaac Lab, Domain Randomization & Sim-to-Real](./03-isaac-lab/) | GPU-parallel envs, domain randomization, flagship portfolio project | 🔴 not started |
-| — | [Appendices](./notes/) | Short standalone essays: QoS cheatsheet, PPO vs SAC, Kalman derivation, simulation-systems design sketches | ongoing |
+| 4 | [System Design — Simulation & Robotics Systems](./04-system-design/) | Interview-ready system-design sketches, built on Ch.1–3 experience | 🔴 not started |
+| — | [Appendices](./notes/) | Short standalone essays: QoS cheatsheet, PPO vs SAC, Kalman derivation | ongoing |
 
 ---
 

@@ -28,8 +28,8 @@ Build a simple diff-drive robot in Gazebo, write ROS2 nodes to:
 Keep snippets short — just the lines that illustrate the concept. Full, compiling code lives in
 `01-ros-gazebo/src/`.
 
-```
-{{#include ../01-ros-gazebo/src/controller.cpp:1:15}}
+```cpp
+{{#include ../01-ros-gazebo/src/controller.cpp:1:40}}
 ```
 
 ## Log

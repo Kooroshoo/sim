@@ -28,8 +28,8 @@ expertise graded on Alignerr/Mindrift/Toptal applications.
 
 Keep snippets short — just the lines that illustrate the concept. Full code lives in `03-isaac-lab/src/`.
 
-```
-{{#include ../03-isaac-lab/src/env_config.py:1:15}}
+```python
+{{#include ../03-isaac-lab/src/env_config.py:1:38}}
 ```
 
 ## Log

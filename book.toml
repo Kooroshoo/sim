@@ -12,8 +12,8 @@ create-missing = false
 git-repository-url = "https://github.com/Kooroshoo/sim"
 edit-url-template = "https://github.com/Kooroshoo/sim/edit/main/{path}"
 site-url = "/sim/"
-default-theme = "light"
-preferred-dark-theme = "navy"
+default-theme = "ayu"
+preferred-dark-theme = "ayu"
 additional-css = ["custom.css"]
 smart-punctuation = true
 

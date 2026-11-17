@@ -20,9 +20,10 @@ spec.
 ## Code walkthrough
 
 Keep snippets short — just the lines that illustrate the concept. Full, compiling code lives in
-`0N-chapter-folder/src/`. Embed it directly (single-level include, resolved relative to this file in `pages/`):
+`0N-chapter-folder/src/`. Embed it directly (single-level include, resolved relative to this file in `pages/`)
+— **the fence must have a language tag** (` ```cpp `, ` ```python `, etc.) or there's no syntax highlighting:
 
-```
+```cpp
 {{#include ../0N-chapter-folder/src/example.ext:1:10}}
 ```
 

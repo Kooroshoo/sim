@@ -25,8 +25,8 @@ then move to a harder contact-rich task once the basics work. Compare PPO vs SAC
 Keep snippets short — just the lines that illustrate the concept. Full, runnable code lives in
 `02-rl-mujoco/src/`.
 
-```
-{{#include ../02-rl-mujoco/src/train_ppo.py:1:15}}
+```python
+{{#include ../02-rl-mujoco/src/train_ppo.py:1:38}}
 ```
 
 ## Log

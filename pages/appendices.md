@@ -10,8 +10,6 @@ several. Each is a single focused write-up, not a full chapter (no Project/Log/R
 - [ ] Kalman filter derivation
 - [ ] Isaac Sim vs Isaac Lab, the distinction cold
 - [ ] Sim-to-real gap — why transfer actually fails
-- [ ] Simulation-systems design sketches (scalable parallel-sim pipeline, SDG pipeline, digital-twin sync,
-      sim-to-real validation framework, VR/AR teleoperation pipeline)
 
 Add a new section below per essay as they're written, and link it here.
 
