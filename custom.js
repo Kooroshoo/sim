@@ -70,4 +70,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (themeToggle) rightButtons.insertBefore(themeToggle, firstRightChild);
     if (themeList) rightButtons.insertBefore(themeList, firstRightChild);
     if (searchToggle) rightButtons.insertBefore(searchToggle, firstRightChild);
+
+    // mdBook's own CSS positions the theme popup with a hardcoded `left: 10px`, which
+    // assumed the toggle button stayed near the left edge. Now that it's been moved to
+    // the right, recompute the popup's position from the button's actual location every
+    // time it's opened, anchored with `position: fixed` so it's unambiguously
+    // viewport-relative regardless of which container it lives in.
+    if (themeToggle && themeList) {
+        themeToggle.addEventListener("click", function () {
+            requestAnimationFrame(function () {
+                var rect = themeToggle.getBoundingClientRect();
+                themeList.style.position = "fixed";
+                themeList.style.left = "auto";
+                themeList.style.right = (window.innerWidth - rect.right) + "px";
+                themeList.style.top = rect.bottom + "px";
+            });
+        });
+    }
 });
