@@ -43,3 +43,31 @@ function simShowTab(btn, lang) {
     var panel = group.querySelector('.code-tab-panel[data-lang="' + lang + '"]');
     if (panel) panel.classList.add("active");
 }
+
+// Rearrange mdBook's own menu-bar chrome (this is theme HTML, not page content, so it
+// can't be changed from markdown — done here via DOM manipulation after load):
+// - remove the "Print this book" and "Suggest an edit" links
+// - move the theme-picker and search controls from the left group to the right group
+document.addEventListener("DOMContentLoaded", function () {
+    var menuBar = document.querySelector(".menu-bar");
+    if (!menuBar) return;
+
+    var printLink = menuBar.querySelector('a[title="Print this book"]');
+    if (printLink) printLink.remove();
+
+    var editLink = menuBar.querySelector('a[rel="edit"]');
+    if (editLink) editLink.remove();
+
+    var leftButtons = menuBar.querySelector(".left-buttons");
+    var rightButtons = menuBar.querySelector(".right-buttons");
+    if (!leftButtons || !rightButtons) return;
+
+    var themeToggle = leftButtons.querySelector("#mdbook-theme-toggle");
+    var themeList = leftButtons.querySelector("#mdbook-theme-list");
+    var searchToggle = leftButtons.querySelector("#mdbook-search-toggle");
+    var firstRightChild = rightButtons.firstChild;
+
+    if (themeToggle) rightButtons.insertBefore(themeToggle, firstRightChild);
+    if (themeList) rightButtons.insertBefore(themeList, firstRightChild);
+    if (searchToggle) rightButtons.insertBefore(searchToggle, firstRightChild);
+});
