@@ -1,0 +1,13 @@
+[book]
+title = "sim — Simulation, ROS2 & Robot Learning"
+description = "Simulation/digital-twin engineering: ROS2, Gazebo, MuJoCo, Isaac Lab, RL, VR/AR teleoperation."
+authors = ["Kourosh"]
+language = "en"
+src = "pages"
+
+[build]
+create-missing = false
+
+[output.html]
+git-repository-url = "https://github.com/Kooroshoo/sim"
+edit-url-template = "https://github.com/Kooroshoo/sim/edit/main/{path}"

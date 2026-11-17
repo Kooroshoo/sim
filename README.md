@@ -7,6 +7,23 @@ and the Alignerr/Mindrift/Micro1/Toptal remote roles actually ask for.
 
 > Last updated: **17 Nov 2026**
 
+**This is both a book and a project.** Each numbered chapter below is a concept write-up *and* the working
+code/experiments for that concept — read it top to bottom like a book, or jump straight to the code.
+
+📖 **Live book:** https://kooroshoo.github.io/sim/ (built with [mdBook](https://rust-lang.github.io/mdBook/),
+auto-deployed on every push to `main` — see `.github/workflows/deploy-book.yml`)
+
+---
+
+## 📖 Table of contents
+
+| # | Chapter | Covers | Status |
+|---|---|---|---|
+| 1 | [ROS2 + Gazebo — Giving Simulation a Voice](./01-ros-gazebo/) | Nodes, topics/services/actions, QoS, a simulated diff-drive robot | 🔴 not started |
+| 2 | [RL Fundamentals — Teaching a Policy to Move](./02-rl-mujoco/) | PPO/SAC on MuJoCo, reward shaping, easy → hard tasks | 🔴 not started |
+| 3 | [Scaling Up — Isaac Lab, Domain Randomization & Sim-to-Real](./03-isaac-lab/) | GPU-parallel envs, domain randomization, flagship portfolio project | 🔴 not started |
+| — | [Appendices](./notes/) | Short standalone essays: QoS cheatsheet, PPO vs SAC, Kalman derivation, simulation-systems design sketches | ongoing |
+
 ---
 
 ## Why this scope
@@ -17,6 +34,78 @@ differentiator: **simulation fidelity + sim-to-real/RL + middleware integration 
 resume categories (Simulation Engines | Robotics Middleware | Computer Vision & RL | VR/AR) and what target
 job postings weight — simulation/RL as primary depth, ROS2 as working fluency to wire things together
 (~70/30), not the reverse.
+
+---
+
+## Chapter template
+
+Every chapter folder (`01-`, `02-`, `03-...`) follows the same shape, so it reads consistently as both a book
+and a project log. Copy [`_template/`](./_template/) to start a new one — it's the single canonical template,
+don't duplicate the shape by hand:
+
+```
+## Concept
+What this chapter covers, explained as if teaching someone else (Feynman-style — if you can't explain it
+plainly, you don't know it yet).
+
+## Why it matters
+Tie back to the essentials checklist / target job postings — why this concept, not just that it exists.
+
+## Project
+What you're building to prove the concept, concretely.
+
+## Log
+Dated entries: what you tried, what failed first, what you changed.
+
+## Results
+Code links, plots, GIFs, demo recordings.
+
+## Resources
+Links used while writing this chapter.
+```
+
+---
+
+## Mixing prose and code
+
+**Write code in real, runnable files; show only short excerpts in the README; never paste a full copy of the
+code into markdown.** Two reasons: copy-pasted code drifts out of sync with what actually compiles the moment
+either one changes, and it clutters the "book" read with boilerplate (includes, imports, setup) nobody needs
+to read twice.
+
+Convention:
+1. Real code lives in each chapter's `src/` (e.g. `01-ros-gazebo/src/controller.cpp`) — compilable, runnable,
+   the actual project.
+2. The chapter's `README.md` embeds the relevant lines with mdBook's `{{#include}}` directive, by line range:
+
+   ```
+   {{#include src/controller.cpp:10:20}}
+   ```
+
+   This always shows the *current* file contents — there is nothing to keep in sync by hand. On GitHub's
+   plain file view the raw `{{#include ...}}` text shows as-is (harmless, just not rendered); on the deployed
+   book (where it matters most, since that's the polished reading experience) it renders as a real, correctly
+   highlighted code block.
+3. Don't hyperlink to sibling folders (e.g. `[src/](./src/)`) from inside chapter prose — those links break
+   once the same text is reused inside the book (paths resolve differently once nested under `pages/`). Refer
+   to `src/` as plain inline code instead; the file tree is one click away on GitHub, and the book shows the
+   code directly via `{{#include}}` anyway.
+
+For **ROS2 C++ chapters**, scaffold with `ros2 pkg create --build-type ament_cmake <name>` inside the chapter
+folder rather than hand-rolling a `CMakeLists.txt` — it generates the right boilerplate for you. For
+**standalone C++** (non-ROS2), a minimal `CMakeLists.txt` + `src/` is enough. For **Python/RL chapters**, just
+`.py` files in `src/`, optionally a `requirements.txt`.
+
+---
+
+## Adding a new chapter
+
+1. Copy [`_template/`](./_template/) to `0N-chapter-name/`
+2. Fill in `Concept` / `Why it matters` / `Project`, write the code in `src/`, embed excerpts via
+   `{{#include}}`
+3. Add a one-line stub page to `pages/chapter-N.md`: `{{#include ../0N-chapter-name/README.md}}`
+4. Add it to `pages/SUMMARY.md` and the table of contents above
+5. Push to `main` — the GitHub Actions workflow rebuilds and redeploys the book automatically
 
 ---
 
@@ -76,30 +165,6 @@ job postings weight — simulation/RL as primary depth, ROS2 as working fluency 
       drift detection
 - [ ] Sim-to-real validation framework
 - [ ] VR/AR teleoperation data-collection pipeline
-
----
-
-## Repo structure
-
-```
-sim/
-  README.md            — this file: essentials checklist + learning log
-  01-ros-gazebo/        — ROS2 + Gazebo: nodes, topics, services, a simple diff-drive robot
-  02-rl-mujoco/         — RL fundamentals: PPO/SAC on MuJoCo tasks, easy → hard
-  03-isaac-lab/         — scale-up: parallel envs, domain randomization — flagship portfolio project lives here
-  notes/                — short concept write-ups (PPO vs SAC, QoS cheatsheet, Kalman derivation)
-```
-
-Each experiment folder gets its own mini-README: what was built, what failed first, results, how to run it.
-Project-first — code and results, not a documentation website.
-
-### Learning path
-1. **ROS2 + Gazebo first** — ROS2 concepts are abstract without a simulator behind them
-2. **RL fundamentals in MuJoCo** — fast iteration, no heavy GPU requirement, the standard environment for
-   learning PPO/SAC mechanics without fighting simulator tooling
-3. **Scale up in Isaac Lab** — once RL fundamentals are solid, port that understanding into GPU-parallelized
-   environments; this is also where the flagship portfolio project (Isaac Sim/MuJoCo env → RL policy with
-   domain randomization → sim-to-sim or partial sim-to-real demo) lives
 
 ---
 
