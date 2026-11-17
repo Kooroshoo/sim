@@ -15,7 +15,7 @@ site-url = "/sim/"
 default-theme = "light"
 preferred-dark-theme = "navy"
 additional-css = ["custom.css"]
-curly-quotes = true
+smart-punctuation = true
 
 [output.html.fold]
 enable = true
