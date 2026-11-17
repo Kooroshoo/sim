@@ -1,5 +1,5 @@
 [book]
-title = "sim — Simulation, ROS2 & Robot Learning"
+title = "sim"
 description = "Simulation/digital-twin engineering: ROS2, Gazebo, MuJoCo, Isaac Lab, RL, VR/AR teleoperation."
 authors = ["Kourosh"]
 language = "en"
