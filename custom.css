@@ -137,3 +137,11 @@ a:hover {
     margin-top: 0;
     border-top-left-radius: 0;
 }
+
+/* Hide mdBook's prev/next chapter-navigation arrows (bottom and wide-layout side arrows) */
+.nav-chapters,
+.mobile-nav-chapters,
+.nav-wrapper,
+.nav-wide-wrapper {
+    display: none;
+}
