@@ -68,28 +68,35 @@ Links used while writing this chapter.
 
 ## Mixing prose and code
 
-**Write code in real, runnable files; show only short excerpts in the README; never paste a full copy of the
+**Write code in real, runnable files; show only short excerpts in the chapter; never paste a full copy of the
 code into markdown.** Two reasons: copy-pasted code drifts out of sync with what actually compiles the moment
 either one changes, and it clutters the "book" read with boilerplate (includes, imports, setup) nobody needs
 to read twice.
 
+**Important: the chapter content lives in `pages/chapter-N.md`, not in the project folder's `README.md`.**
+Each project folder's `README.md` is just a short pointer to the real chapter. This isn't arbitrary — it's a
+fix for a real mdBook bug: `{{#include}}` directives nested two levels deep (a `pages/` stub including a
+project `README.md`, which itself includes a code file) resolve their paths incorrectly. A single-level
+include — `pages/chapter-N.md` embedding code directly — resolves correctly every time. Don't fight this by
+nesting includes again later; keep the chapter content and its code includes in the same file.
+
 Convention:
 1. Real code lives in each chapter's `src/` (e.g. `01-ros-gazebo/src/controller.cpp`) — compilable, runnable,
    the actual project.
-2. The chapter's `README.md` embeds the relevant lines with mdBook's `{{#include}}` directive, by line range:
+2. `pages/chapter-N.md` embeds the relevant lines with mdBook's `{{#include}}` directive, by line range,
+   relative to its own location in `pages/`:
 
    ```
-   {{#include src/controller.cpp:10:20}}
+   {{#include ../01-ros-gazebo/src/controller.cpp:10:20}}
    ```
 
    This always shows the *current* file contents — there is nothing to keep in sync by hand. On GitHub's
    plain file view the raw `{{#include ...}}` text shows as-is (harmless, just not rendered); on the deployed
    book (where it matters most, since that's the polished reading experience) it renders as a real, correctly
    highlighted code block.
-3. Don't hyperlink to sibling folders (e.g. `[src/](./src/)`) from inside chapter prose — those links break
-   once the same text is reused inside the book (paths resolve differently once nested under `pages/`). Refer
-   to `src/` as plain inline code instead; the file tree is one click away on GitHub, and the book shows the
-   code directly via `{{#include}}` anyway.
+3. Don't hyperlink to sibling folders (e.g. `[src/](./src/)`) from inside chapter prose — refer to `src/` as
+   plain inline code instead; the file tree is one click away on GitHub, and the book shows the code directly
+   via `{{#include}}` anyway.
 
 For **ROS2 C++ chapters**, scaffold with `ros2 pkg create --build-type ament_cmake <name>` inside the chapter
 folder rather than hand-rolling a `CMakeLists.txt` — it generates the right boilerplate for you. For
@@ -100,10 +107,11 @@ folder rather than hand-rolling a `CMakeLists.txt` — it generates the right bo
 
 ## Adding a new chapter
 
-1. Copy [`_template/`](./_template/) to `0N-chapter-name/`
-2. Fill in `Concept` / `Why it matters` / `Project`, write the code in `src/`, embed excerpts via
-   `{{#include}}`
-3. Add a one-line stub page to `pages/chapter-N.md`: `{{#include ../0N-chapter-name/README.md}}`
+1. Create `0N-chapter-name/src/` for the real code, and `0N-chapter-name/README.md` as a short pointer
+   (see the template's bottom section for the exact pointer text)
+2. Copy [`_template/`](./_template/)'s main content into `pages/chapter-N.md` — that's the canonical source
+3. Fill in `Concept` / `Why it matters` / `Project`, write the code in `src/`, embed excerpts via a
+   single-level `{{#include ../0N-chapter-name/src/file.ext:L:L}}`
 4. Add it to `pages/SUMMARY.md` and the table of contents above
 5. Push to `main` — the GitHub Actions workflow rebuilds and redeploys the book automatically
 
