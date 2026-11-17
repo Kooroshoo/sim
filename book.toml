@@ -15,6 +15,7 @@ site-url = "/sim/"
 default-theme = "ayu"
 preferred-dark-theme = "ayu"
 additional-css = ["custom.css"]
+additional-js = ["custom.js"]
 smart-punctuation = true
 
 [output.html.fold]

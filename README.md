@@ -7,7 +7,7 @@ and the Alignerr/Mindrift/Micro1/Toptal remote roles actually ask for.
 
 > Last updated: **17 Nov 2026**
 
-**This is both a book and a project.** Each numbered chapter below is a concept write-up *and* the working
+**This is both a book and a project.** Each subsection below is a concept write-up *and* the working
 code/experiments for that concept — read it top to bottom like a book, or jump straight to the code.
 
 📖 **Live book:** https://kooroshoo.github.io/sim/ (built with [mdBook](https://rust-lang.github.io/mdBook/),
@@ -17,13 +17,12 @@ auto-deployed on every push to `main` — see `.github/workflows/deploy-book.yml
 
 ## 📖 Table of contents
 
-| # | Chapter | Covers | Status |
-|---|---|---|---|
-| 1 | [ROS2 + Gazebo — Giving Simulation a Voice](./01-ros-gazebo/) | Nodes, topics/services/actions, QoS, a simulated diff-drive robot | 🔴 not started |
-| 2 | [RL Fundamentals — Teaching a Policy to Move](./02-rl-mujoco/) | PPO/SAC on MuJoCo, reward shaping, easy → hard tasks | 🔴 not started |
-| 3 | [Scaling Up — Isaac Lab, Domain Randomization & Sim-to-Real](./03-isaac-lab/) | GPU-parallel envs, domain randomization, flagship portfolio project | 🔴 not started |
-| 4 | [System Design — Simulation & Robotics Systems](./04-system-design/) | Interview-ready system-design sketches, built on Ch.1–3 experience | 🔴 not started |
-| — | [Appendices](./notes/) | Short standalone essays: QoS cheatsheet, PPO vs SAC, Kalman derivation | ongoing |
+| Section | Subsections | Status |
+|---|---|---|
+| [**ROS**](./ros/) — working fluency, ~30% | [Fundamentals](./pages/ros/01-fundamentals.md) · [Gazebo](./pages/ros/02-gazebo.md) · [RViz](./pages/ros/03-rviz.md) · [Nav2](./pages/ros/04-nav2.md) · [MoveIt](./pages/ros/05-moveit.md) | 🔴 not started |
+| [**RL**](./rl/) — primary depth, ~70% | [Fundamentals](./pages/rl/01-fundamentals.md) · [MuJoCo](./pages/rl/02-mujoco.md) · [Isaac Lab](./pages/rl/03-isaac-lab.md) · [Sim-to-Real](./pages/rl/04-sim-to-real.md) · [Imitation Learning & VLA](./pages/rl/05-imitation-learning-vla.md) · [Flagship Project](./pages/rl/06-flagship-project.md) | 🔴 not started |
+| [**System Design**](./system-design/) — interview-ready, built on ROS+RL experience | [Parallel Sim Pipeline](./pages/system-design/01-parallel-sim-pipeline.md) · [SDG Pipeline](./pages/system-design/02-sdg-pipeline.md) · [Digital Twin Sync](./pages/system-design/03-digital-twin-sync.md) · [Sim-to-Real Validation](./pages/system-design/04-sim-to-real-validation.md) · [VR/AR Teleop](./pages/system-design/05-vr-ar-teleop.md) · [Sensor Fusion](./pages/system-design/06-sensor-fusion.md) · [Real-Time Control](./pages/system-design/07-real-time-control.md) · [Fault-Tolerant Nav](./pages/system-design/08-fault-tolerant-nav.md) | 🔴 not started |
+| [Appendices](./notes/) | Short standalone essays: QoS cheatsheet, PPO vs SAC, Kalman derivation | ongoing |
 
 ---
 
@@ -36,21 +35,28 @@ resume categories (Simulation Engines | Robotics Middleware | Computer Vision & 
 job postings weight — simulation/RL as primary depth, ROS2 as working fluency to wire things together
 (~70/30), not the reverse.
 
+**System Design comes last on purpose** (not first): these prompts are far more concrete once you've built
+even a small version of one of these systems in ROS/RL — practiced cold, they become buzzword-matching
+instead of reasoning you can defend under a follow-up question.
+
 ---
 
-## Chapter template
+## Subsection template
 
-Every chapter folder (`01-`, `02-`, `03-...`) follows the same shape, so it reads consistently as both a book
-and a project log. Copy [`_template/`](./_template/) to start a new one — it's the single canonical template,
-don't duplicate the shape by hand:
+Every subsection page (`pages/ros/0N-*.md`, `pages/rl/0N-*.md`) follows the same shape, so it reads
+consistently as both a book and a project log. Copy [`_template/`](./_template/) to start a new one — it's the
+single canonical template, don't duplicate the shape by hand:
 
 ```
 ## Concept
-What this chapter covers, explained as if teaching someone else (Feynman-style — if you can't explain it
+What this subsection covers, explained as if teaching someone else (Feynman-style — if you can't explain it
 plainly, you don't know it yet).
 
 ## Why it matters
-Tie back to the essentials checklist / target job postings — why this concept, not just that it exists.
+Tie back to target job postings — why this concept, not just that it exists.
+
+## Must-knows for interviews
+The specific things interviewers actually probe — not a generic topic list.
 
 ## Project
 What you're building to prove the concept, concretely.
@@ -62,118 +68,90 @@ Dated entries: what you tried, what failed first, what you changed.
 Code links, plots, GIFs, demo recordings.
 
 ## Resources
-Links used while writing this chapter.
+Links used while writing this subsection.
 ```
+
+System Design subsections use a lighter variant (`Prompt` + `Things to cover when narrating` instead of
+`Concept`/`Project`, since the deliverable is a sketch + spoken narration, not running code) — see any file in
+`pages/system-design/` for the pattern.
 
 ---
 
 ## Mixing prose and code
 
-**Write code in real, runnable files; show only short excerpts in the chapter; never paste a full copy of the
+**Write code in real, runnable files; show only short excerpts in the page; never paste a full copy of the
 code into markdown.** Two reasons: copy-pasted code drifts out of sync with what actually compiles the moment
 either one changes, and it clutters the "book" read with boilerplate (includes, imports, setup) nobody needs
 to read twice.
 
-**Important: the chapter content lives in `pages/chapter-N.md`, not in the project folder's `README.md`.**
-Each project folder's `README.md` is just a short pointer to the real chapter. This isn't arbitrary — it's a
-fix for a real mdBook bug: `{{#include}}` directives nested two levels deep (a `pages/` stub including a
-project `README.md`, which itself includes a code file) resolve their paths incorrectly. A single-level
-include — `pages/chapter-N.md` embedding code directly — resolves correctly every time. Don't fight this by
-nesting includes again later; keep the chapter content and its code includes in the same file.
+**Important: the content lives in `pages/<section>/0N-name.md`, not in the project folder's `README.md`.**
+Each project folder's `README.md` is just a short pointer to the real pages. This isn't arbitrary — it's a fix
+for a real mdBook bug: `{{#include}}` directives nested two levels deep (a page including a project `README.md`,
+which itself includes a code file) resolve their paths incorrectly. A single-level include — the page
+embedding code directly — resolves correctly every time. Don't fight this by nesting includes again later;
+keep the page content and its code includes in the same file.
 
 Convention:
-1. Real code lives in each chapter's `src/` (e.g. `01-ros-gazebo/src/controller.cpp`) — compilable, runnable,
+1. Real code lives in each project folder's `src/` (e.g. `ros/src/controller.cpp`) — compilable, runnable,
    the actual project.
-2. `pages/chapter-N.md` embeds the relevant lines with mdBook's `{{#include}}` directive, by line range,
-   relative to its own location in `pages/`:
+2. The page embeds the relevant lines with mdBook's `{{#include}}` directive, by line range, relative to its
+   own location (note the extra `../` level since pages now live one folder deeper, e.g. `pages/ros/...`):
 
    ```
-   {{#include ../01-ros-gazebo/src/controller.cpp:10:20}}
+   {{#include ../../ros/src/controller.cpp:10:20}}
    ```
 
-   This always shows the *current* file contents — there is nothing to keep in sync by hand. On GitHub's
-   plain file view the raw `{{#include ...}}` text shows as-is (harmless, just not rendered); on the deployed
-   book (where it matters most, since that's the polished reading experience) it renders as a real, correctly
-   highlighted code block.
-3. Don't hyperlink to sibling folders (e.g. `[src/](./src/)`) from inside chapter prose — refer to `src/` as
+   This always shows the *current* file contents — there is nothing to keep in sync by hand.
+3. **The code fence needs a language tag** (` ```cpp `, ` ```python `) — a bare ` ``` ` disables syntax
+   highlighting entirely, a bug hit once already in this repo.
+4. Don't hyperlink to sibling folders (e.g. `[src/](./src/)`) from inside page prose — refer to `src/` as
    plain inline code instead; the file tree is one click away on GitHub, and the book shows the code directly
    via `{{#include}}` anyway.
 
-For **ROS2 C++ chapters**, scaffold with `ros2 pkg create --build-type ament_cmake <name>` inside the chapter
-folder rather than hand-rolling a `CMakeLists.txt` — it generates the right boilerplate for you. For
-**standalone C++** (non-ROS2), a minimal `CMakeLists.txt` + `src/` is enough. For **Python/RL chapters**, just
-`.py` files in `src/`, optionally a `requirements.txt`.
+**C++/Python tabs**: when a concept applies equally to both (most ROS2 examples, since `rclcpp`/`rclpy` are
+both first-class), show both via the tab component (CSS in `custom.css`, JS in `custom.js`):
+
+```html
+<div class="code-tabs">
+<div class="code-tabs-nav">
+<button class="code-tab-btn active" onclick="simShowTab(this, 'cpp')">C++</button>
+<button class="code-tab-btn" onclick="simShowTab(this, 'python')">Python</button>
+</div>
+<div class="code-tab-panel active" data-lang="cpp">
+
+```cpp
+{{#include ../../ros/src/example.cpp:1:10}}
+```
+
+</div>
+<div class="code-tab-panel" data-lang="python">
+
+```python
+{{#include ../../ros/src/example.py:1:10}}
+```
+
+</div>
+</div>
+```
+
+The blank lines around each fenced code block are required — without them mdBook's markdown parser treats the
+whole `<div>...</div>` as one raw HTML block and never renders the code fence as markdown at all.
+
+For **ROS2 C++ code**, scaffold with `ros2 pkg create --build-type ament_cmake <name>` rather than hand-
+rolling a `CMakeLists.txt` — it generates the right boilerplate for you. For **Python/RL code**, just `.py`
+files in `src/`, optionally a `requirements.txt`.
 
 ---
 
-## Adding a new chapter
+## Adding a new subsection
 
-1. Create `0N-chapter-name/src/` for the real code, and `0N-chapter-name/README.md` as a short pointer
-   (see the template's bottom section for the exact pointer text)
-2. Copy [`_template/`](./_template/)'s main content into `pages/chapter-N.md` — that's the canonical source
-3. Fill in `Concept` / `Why it matters` / `Project`, write the code in `src/`, embed excerpts via a
-   single-level `{{#include ../0N-chapter-name/src/file.ext:L:L}}`
-4. Add it to `pages/SUMMARY.md` and the table of contents above
-5. Push to `main` — the GitHub Actions workflow rebuilds and redeploys the book automatically
-
----
-
-## Essentials checklist
-
-### ROS2 (working fluency — not deep specialization)
-- [ ] Nodes, topics, services, actions — when to use each
-- [ ] QoS profiles — `RELIABLE` vs `BEST_EFFORT`, durability, history depth (control vs telemetry)
-- [ ] DDS discovery mechanics (and the ROS1 master → ROS2 DDS story)
-- [ ] Lifecycle nodes (unconfigured → inactive → active → finalized)
-- [ ] `MultiThreadedExecutor` vs blocking `rclcpp::spin` — and why production systems need the former
-- [ ] URDF basics (robot description: links, joints, sensors)
-- [ ] `rviz2` for visualization/debugging
-- Resource: [ROS2 docs](https://docs.ros.org/en/rolling/)
-
-### Simulation platforms
-- [ ] Gazebo (`gz-sim`): worlds, plugins, sensors, the `ros_gz` bridge
-- [ ] MuJoCo: MJCF format, physics stepping, contact dynamics, Gymnasium integration
-- [ ] Isaac Sim vs Isaac Lab — know the distinction cold (Isaac Sim = high-fidelity SIL/HIL + synthetic
-      data; Isaac Lab = lightweight RL/imitation-learning framework built on top)
-- [ ] USD basics (Isaac Sim/Omniverse and most digital-twin roles assume this)
-- [ ] GPU-accelerated parallel simulation (Isaac Gym lineage) — why it matters for RL throughput
-- Resource: [Isaac Lab docs](https://developer.nvidia.com/isaac/lab)
-
-### Reinforcement & imitation learning
-- [ ] PPO vs SAC — tradeoffs, when to use which
-- [ ] Reward shaping pitfalls (reward hacking, sparse vs dense rewards)
-- [ ] Domain randomization — what it's actually solving for
-- [ ] Sim-to-real gap — *why* transfer fails, not just that it's hard
-- [ ] Imitation learning / behavior cloning basics, and a working sense of Vision-Language-Action (VLA)
-      models — this came up repeatedly across target postings (NVIDIA, Amazon, STMicroelectronics) as the
-      current direction of the field
-- Resource: [OpenAI Spinning Up](https://spinningup.openai.com/) · [Sutton & Barto (free)](http://incompleteideas.net/book/the-book.html)
-
-### Computer vision / synthetic data
-- [ ] Synthetic data generation (SDG) workflow — domain randomization for perception, labeling, dataset
-      versioning
-- [ ] Camera/LiDAR/IMU sensor simulation basics
-- [ ] Core CV you already have (OpenCV) applied *to* simulated sensor output, not just real images
-
-### VR/AR + teleoperation
-- [ ] OpenXR basics
-- [ ] Teleoperation data-collection pipeline concept — latency budget headset/controller → sim or real
-      robot, recording/replay for imitation learning (you already have this from Meta Quest/VR work — it's a
-      genuine differentiator most candidates won't have an answer for)
-
-### C++ & systems
-- [ ] RAII / smart pointers / ownership
-- [ ] Concurrency (threads, locks, lock-free basics) — ties directly to the ROS2 executor topic above
-- [ ] Real-time constraints, conceptually (latency budgets, why it matters for control loops)
-
-### Simulation-systems design (practice sketching + narrating out loud)
-- [ ] Scalable parallel-simulation pipeline (thousands of Isaac Sim/Isaac Gym envs for RL training) — GPU
-      utilization, environment resets, throughput vs fidelity tradeoffs
-- [ ] Synthetic data generation pipeline for a perception model
-- [ ] Digital twin architecture synced with a changing physical asset — sensor ingestion, calibration loop,
-      drift detection
-- [ ] Sim-to-real validation framework
-- [ ] VR/AR teleoperation data-collection pipeline
+1. Pick the parent (`ros/`, `rl/`, or `system-design/`) and the next `0N-` number
+2. Write the real code in `<parent>/src/` (or `<parent>/assets/` for system-design sketches)
+3. Copy [`_template/`](./_template/)'s content into `pages/<parent>/0N-name.md` — that's the canonical source
+4. Embed code excerpts via a single-level `{{#include ../../<parent>/src/file.ext:L:L}}`, fenced with a
+   language tag
+5. Add it to `pages/SUMMARY.md`, the parent's `index.md`, and the table of contents above
+6. Push to `main` — the GitHub Actions workflow rebuilds and redeploys the book automatically
 
 ---
 

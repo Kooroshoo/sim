@@ -90,3 +90,50 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* C++/Python code tabs (see custom.js for the toggle logic) */
+.code-tabs {
+    margin: 1.2em 0;
+}
+
+.code-tabs-nav {
+    display: flex;
+    gap: 0.3em;
+    border-bottom: 2px solid rgba(127, 127, 127, 0.25);
+    margin-bottom: -1px;
+}
+
+.code-tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+}
+
+.code-tab-btn:hover {
+    opacity: 0.85;
+}
+
+.code-tab-btn.active {
+    opacity: 1;
+    border-bottom-color: #2b7de9;
+}
+
+.code-tab-panel {
+    display: none;
+}
+
+.code-tab-panel.active {
+    display: block;
+}
+
+.code-tab-panel pre {
+    margin-top: 0;
+    border-top-left-radius: 0;
+}

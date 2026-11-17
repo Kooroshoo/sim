@@ -1,5 +1,5 @@
-// Placeholder — replace with the real controller once Chapter 1 is underway.
-// Shown in pages/chapter-1.md via: {{#include ../01-ros-gazebo/src/controller.cpp:1:40}}
+// Placeholder — replace with the real controller once this section is underway.
+// Shown in pages/ros/01-fundamentals.md via: {{#include ../../ros/src/controller.cpp:1:25}}
 
 #include <memory>
 #include <string>

@@ -1,4 +1,4 @@
-# Chapter N — <Short, evocative title>
+# <Short, evocative title>
 
 > Status: 🔴 not started _(switch to 🟡 in progress, then 🟢 done — keep only one)_
 
@@ -9,8 +9,13 @@ yet — come back and rewrite this section after finishing the project below, no
 
 ## Why it matters
 
-One or two sentences tying this back to the essentials checklist in the root README, or to a specific target
-job posting. Be concrete — "this is in Alignerr's required-skills list" beats "this is generally useful."
+One or two sentences tying this back to a specific target job posting. Be concrete — "this is in Alignerr's
+required-skills list" beats "this is generally useful."
+
+## Must-knows for interviews
+
+The specific things interviewers actually probe for this topic — not a generic list of subtopics. Each bullet
+should be something you could be asked a follow-up question about and have a real answer for.
 
 ## Project
 
@@ -20,12 +25,18 @@ spec.
 ## Code walkthrough
 
 Keep snippets short — just the lines that illustrate the concept. Full, compiling code lives in
-`0N-chapter-folder/src/`. Embed it directly (single-level include, resolved relative to this file in `pages/`)
-— **the fence must have a language tag** (` ```cpp `, ` ```python `, etc.) or there's no syntax highlighting:
+`<parent>/src/` (e.g. `ros/src/`, `rl/src/`). Embed it directly — **single-level include**, resolved relative
+to this file's location at `pages/<parent>/0N-name.md` (note the `../../` — two levels up to the repo root,
+then down into the project folder) — and **the fence must have a language tag** (` ```cpp `, ` ```python `,
+etc.) or there's no syntax highlighting:
 
 ```cpp
-{{#include ../0N-chapter-folder/src/example.ext:1:10}}
+{{#include ../../<parent>/src/example.ext:1:10}}
 ```
+
+For a concept that applies equally to C++ and Python (most ROS2 examples), use the tab component instead of a
+single fence — see the root README's "Mixing prose and code" section for the exact markup, and why blank lines
+around each fence are required.
 
 (See the root README's "Mixing prose and code" section for the full convention — and why it must be a
 single-level include, not nested through another README.)
@@ -46,14 +57,14 @@ Plots, GIFs, screenshots, or a link to a short demo recording.
 
 ---
 
-**This file is the canonical source** — it belongs in `pages/chapter-N.md`, not in the project folder. Leave a
-short pointer file in `0N-chapter-folder/README.md` instead:
+**This file is the canonical source** — it belongs in `pages/<parent>/0N-name.md`, not in the project folder.
+The project folder's `README.md` (one per parent section, not per subsection) is just a short pointer:
 
 ```markdown
-# Chapter N — <Title>
+# <Parent Section Name>
 
 > Status: 🔴 not started
 
-This chapter is written in [`pages/chapter-N.md`](../pages/chapter-N.md) — read it there, or on the live book.
-This folder holds the actual project (`src/` — real, compiling code).
+This section is written across [`pages/<parent>/*.md`](../pages/<parent>/) — read it there, or on the live
+book. This folder holds the actual project (`src/` — real, compiling code).
 ```
